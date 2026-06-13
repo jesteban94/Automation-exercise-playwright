@@ -1,0 +1,65 @@
+trigger:
+- main
+
+pr:
+- main
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+variables:
+  # Disables the warning that npm creates when not run in CI
+  CI: 'true'
+  # Path for caching Playwright browsers
+  PLAYWRIGHT_BROWSERS_PATH: $(Pipeline.Workspace)/.cache/ms-playwright
+
+steps:
+- task: NodeTool@0
+  inputs:
+    versionSpec: '20.x'
+  displayName: 'Install Node.js'
+
+# Cache Node modules
+- task: Cache@2
+  inputs:
+    key: 'npm | "$(Agent.OS)" | package.json'
+    restoreKeys: |
+      npm | "$(Agent.OS)"
+    path: $(Build.SourcesDirectory)/node_modules
+  displayName: 'Cache npm dependencies'
+
+# Cache Playwright browsers
+- task: Cache@2
+  inputs:
+    key: 'playwright | "$(Agent.OS)" | package.json'
+    path: $(PLAYWRIGHT_BROWSERS_PATH)
+    cacheHitVar: PLAYWRIGHT_CACHE_HIT
+  displayName: 'Cache Playwright Browsers'
+
+- script: npm install
+  displayName: 'Install npm dependencies'
+
+# Install Playwright browser binaries and OS dependencies
+- script: npx playwright install --with-deps chromium
+  condition: ne(variables.PLAYWRIGHT_CACHE_HIT, 'true')
+  displayName: 'Install Playwright Chromium Browser'
+
+- script: |
+    # Even if cache hit, we need to install the browser dependencies (system libraries)
+    npx playwright install-deps chromium
+  condition: eq(variables.PLAYWRIGHT_CACHE_HIT, 'true')
+  displayName: 'Install Playwright System Dependencies (Cache Hit)'
+
+- script: npm test
+  displayName: 'Run Playwright Cucumber Tests'
+  env:
+    CI: 'true'
+
+# Publish the cucumber HTML report as an artifact
+- task: PublishPipelineArtifact@1
+  inputs:
+    targetPath: '$(System.DefaultWorkingDirectory)/cucumber-report.html'
+    artifact: 'cucumber-report'
+    publishLocation: 'pipeline'
+  displayName: 'Publish Cucumber HTML Report'
+  condition: always()
