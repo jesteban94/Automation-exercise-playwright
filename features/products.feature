@@ -1,5 +1,6 @@
 Feature: Verificación de Productos y Detalle de Productos
 
+  @smoke
   Scenario: Verificar todos los productos y la página de detalle del producto
     Given que el usuario navega a la página de inicio
     And el usuario verifica que la página de inicio se cargó correctamente
