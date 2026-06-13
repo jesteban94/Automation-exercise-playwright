@@ -4,6 +4,7 @@ import { HomePage } from '../pages/HomePage';
 import { LoginPage } from '../pages/LoginPage';
 import { UserApiClient } from '../api/UserApiClient';
 import { CustomWorld } from '../support/hooks';
+import { testData } from '../support/testData';
 
 let homePage: HomePage;
 let loginPage: LoginPage;
@@ -15,28 +16,37 @@ Given('que el usuario navega a la página de inicio', async function (this: Cust
 
 Given('hace clic en la opción de iniciar sesión o registrarse', async function () {
     await homePage.clickSignupLogin();
-    loginPage = new LoginPage(this.page);
+    loginPage = new LoginPage(homePage['page']);
 });
 
-When('ingresa el correo {string} y la contraseña {string}', async function (email: string, password: string) {
-    await loginPage.login(email, password);
+Given('que existe el usuario de prueba registrado', async function (this: CustomWorld) {
+    const userApiClient = new UserApiClient(this.apiContext);
+    const user = testData.validUser;
+    // Delete account first to make sure we start fresh
+    await userApiClient.deleteAccount(user.email, user.password);
+    // Create account
+    const response = await userApiClient.createAccount(user.email, user.password, user.name);
+    expect(response.status()).toBe(200);
 });
 
-Then('el usuario debería iniciar sesión correctamente y ver su nombre de usuario {string}', async function (username: string) {
-    const isLoggedIn = await homePage.isLoggedInAs(username);
+When('ingresa las credenciales del usuario de prueba', async function () {
+    const user = testData.validUser;
+    await loginPage.login(user.email, user.password);
+});
+
+Then('el usuario debería iniciar sesión correctamente y ver su nombre en la barra de navegación', async function () {
+    const user = testData.validUser;
+    const isLoggedIn = await homePage.isLoggedInAs(user.name);
     expect(isLoggedIn).toBe(true);
 });
 
-Then('el usuario debería ver un mensaje de error que contiene {string}', async function (expectedError: string) {
-    const errorText = await loginPage.getLoginErrorMessage();
-    expect(errorText).toContain(expectedError);
+When('ingresa las credenciales de un usuario inválido', async function () {
+    const user = testData.invalidUser;
+    await loginPage.login(user.email, user.password);
 });
 
-Given('que existe un usuario registrado con el correo {string} y la contraseña {string}', async function (this: CustomWorld, email: string, password: string) {
-    const userApiClient = new UserApiClient(this.apiContext);
-    // Delete account first to make sure we start fresh
-    await userApiClient.deleteAccount(email, password);
-    // Create account
-    const response = await userApiClient.createAccount(email, password, "SDET Test");
-    expect(response.status()).toBe(200);
+Then('el usuario debería ver el mensaje de error de credenciales incorrectas', async function () {
+    const user = testData.invalidUser;
+    const errorText = await loginPage.getLoginErrorMessage();
+    expect(errorText).toContain(user.expectedError);
 });

@@ -1,11 +1,11 @@
-# language: es
-Característica: Registro de Nuevo Usuario
+Feature: Registro de Nuevo Usuario
 
-  Escenario: Registro exitoso de un nuevo usuario en la plataforma
-    Dado que el usuario navega a la página de inicio
-    Y hace clic en la opción de iniciar sesión o registrarse
-    Cuando inicia el registro con el nombre "SDET Test" y un correo aleatorio
-    Y completa el formulario de registro con datos de dirección y contraseña "Password123!"
-    Y hace clic en el botón de crear cuenta
-    Entonces el usuario debería ver la confirmación de cuenta creada "ACCOUNT CREATED!"
-    Y hace clic en continuar y debería ver su nombre de usuario "SDET Test" en la barra de navegación
+  @smoke
+  Scenario: Registro exitoso de un nuevo usuario en la plataforma
+    Given que el usuario navega a la página de inicio
+    And hace clic en la opción de iniciar sesión o registrarse
+    When inicia el registro con el nombre del usuario de prueba y un correo aleatorio
+    And completa el formulario de registro con los datos de dirección y la contraseña del usuario de prueba
+    And hace clic en el botón de crear cuenta
+    Then el usuario debería ver la confirmación de cuenta creada exitosamente
+    And hace clic en continuar y debería ver su nombre en la barra de navegación
