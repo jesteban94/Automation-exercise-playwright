@@ -23,14 +23,14 @@ BeforeAll(async function () {
     const headless = process.env.CI === 'true' || process.env.HEADLESS === 'true';
     browser = await chromium.launch({
         headless,
-        args: ['--no-sandbox', '--disable-setuid-sandbox']
+        args: ['--start-maximized', '--no-sandbox', '--disable-setuid-sandbox']
     });
 });
 
 Before(async function (this: CustomWorld) {
-    // Create new context with specified viewport
+    // Create new context with viewport: null for full screen / maximized browser
     this.context = await browser.newContext({
-        viewport: { width: 1280, height: 720 },
+        viewport: null,
         userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
     });
     this.page = await this.context.newPage();
