@@ -10,6 +10,7 @@ export class LoginPage extends BasePage {
     readonly signupNameInput: Locator;
     readonly signupEmailInput: Locator;
     readonly signupButton: Locator;
+    readonly signupErrorMessage: Locator;
 
     constructor(page: Page) {
         super(page);
@@ -21,6 +22,7 @@ export class LoginPage extends BasePage {
         this.signupNameInput = page.locator('input[data-qa="signup-name"]');
         this.signupEmailInput = page.locator('input[data-qa="signup-email"]');
         this.signupButton = page.locator('button[data-qa="signup-button"]');
+        this.signupErrorMessage = page.locator('form[action="/signup"] p');
     }
 
     async navigateToLogin(): Promise<void> {
@@ -40,7 +42,12 @@ export class LoginPage extends BasePage {
     }
 
     async getLoginErrorMessage(): Promise<string | null> {
-        await this.loginErrorMessage.waitFor({ state: 'visible' });
+        await this.loginErrorMessage.waitFor({ state: 'visible', timeout: 5000 });
         return this.loginErrorMessage.textContent();
+    }
+
+    async getSignupErrorMessage(): Promise<string | null> {
+        await this.signupErrorMessage.waitFor({ state: 'visible', timeout: 5000 });
+        return this.signupErrorMessage.textContent();
     }
 }

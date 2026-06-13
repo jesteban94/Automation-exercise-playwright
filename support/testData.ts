@@ -10,7 +10,34 @@ export const testData = {
         expectedError: "Your email or password is incorrect!"
     },
     registration: {
-        // Shared expected banners or messages
-        accountCreatedBanner: "ACCOUNT CREATED!"
+        accountCreatedBanner: "ACCOUNT CREATED!",
+        accountDeletedBanner: "ACCOUNT DELETED!",
+        emailExistsError: "Email Address already exist!"
+    },
+    contactUs: {
+        name: "SDET Contact",
+        email: "sdet_contact@example.com",
+        subject: "Soporte Técnico - Reporte de Error",
+        message: "Hola, esto es una prueba automatizada del formulario de Contact Us usando Playwright y Cucumber. Saludos.",
+        successMessage: "Success! Your details have been submitted successfully."
+    },
+    subscription: {
+        successMessage: "You have been successfully subscribed!"
+    },
+    payment: {
+        nameOnCard: "SDET Test Card",
+        cardNumber: "4111222233334444",
+        cvc: "321",
+        expiryMonth: "12",
+        expiryYear: "2028",
+        successMessage: "ORDER PLACED!"
+    },
+    categories: {
+        womenTopsHeader: "WOMEN - TOPS PRODUCTS",
+        menTshirtsHeader: "MEN - TSHIRTS PRODUCTS"
+    },
+    brands: {
+        poloHeader: "BRAND - POLO PRODUCTS",
+        madameHeader: "BRAND - MADAME PRODUCTS"
     }
 };

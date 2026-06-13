@@ -10,6 +10,7 @@ export class CustomWorld extends World {
   public apiContext!: APIRequestContext;
   public context!: BrowserContext;
   public page!: Page;
+  public downloadedInvoicePath?: string;
 
   constructor(options: IWorldOptions) {
     super(options);
@@ -43,6 +44,13 @@ Before(async function (this: CustomWorld) {
     await this.page.route('**/*adsbygoogle*', route => route.abort());
 
     this.apiContext = await request.newContext();
+    
+    // Register global dialog listener to auto-accept all dialogs (alerts, confirms)
+    this.page.on('dialog', async dialog => {
+        console.log(`[Dialog Hooked]: type=${dialog.type()}, message="${dialog.message()}"`);
+        await dialog.accept();
+        console.log('[Dialog Accepted]');
+    });
 });
 
 After(async function (this: CustomWorld, scenario) {

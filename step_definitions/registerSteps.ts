@@ -6,21 +6,16 @@ import { HomePage } from '../pages/HomePage';
 import { CustomWorld } from '../support/hooks';
 import { testData } from '../support/testData';
 
-let loginPage: LoginPage;
-let signupPage: SignupPage;
-let homePage: HomePage;
-let randomEmail: string;
-
 When('inicia el registro con el nombre del usuario de prueba y un correo aleatorio', async function (this: CustomWorld) {
-    loginPage = new LoginPage(this.page);
-    randomEmail = `sdet_test_${Date.now()}@example.com`;
+    const loginPage = new LoginPage(this.page);
+    const randomEmail = `sdet_test_${Date.now()}@example.com`;
     const name = testData.validUser.name;
     console.log(`[Registration] Registering user "${name}" with email "${randomEmail}"`);
     await loginPage.signupInit(name, randomEmail);
-    signupPage = new SignupPage(this.page);
 });
 
-When('completa el formulario de registro con los datos de dirección y la contraseña del usuario de prueba', async function () {
+When('completa el formulario de registro con los datos de dirección y la contraseña del usuario de prueba', async function (this: CustomWorld) {
+    const signupPage = new SignupPage(this.page);
     const user = testData.validUser;
     const userDetails: UserDetails = {
         gender: 'Mr',
@@ -44,11 +39,13 @@ When('completa el formulario de registro con los datos de dirección y la contra
     await signupPage.fillAccountDetails(userDetails);
 });
 
-When('hace clic en el botón de crear cuenta', async function () {
+When('hace clic en el botón de crear cuenta', async function (this: CustomWorld) {
+    const signupPage = new SignupPage(this.page);
     await signupPage.clickCreateAccount();
 });
 
-Then('el usuario debería ver la confirmación de cuenta creada exitosamente', async function () {
+Then('el usuario debería ver la confirmación de cuenta creada exitosamente', async function (this: CustomWorld) {
+    const signupPage = new SignupPage(this.page);
     const isCreated = await signupPage.isAccountCreatedVisible();
     expect(isCreated).toBe(true);
     const text = await signupPage.accountCreatedHeader.textContent();
@@ -57,8 +54,9 @@ Then('el usuario debería ver la confirmación de cuenta creada exitosamente', a
 });
 
 Then('hace clic en continuar y debería ver su nombre en la barra de navegación', async function (this: CustomWorld) {
+    const signupPage = new SignupPage(this.page);
     await signupPage.clickContinue();
-    homePage = new HomePage(this.page);
+    const homePage = new HomePage(this.page);
     const expectedUsername = testData.validUser.name;
     const isLoggedIn = await homePage.isLoggedInAs(expectedUsername);
     expect(isLoggedIn).toBe(true);
