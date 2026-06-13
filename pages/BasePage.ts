@@ -8,7 +8,7 @@ export class BasePage {
     }
 
     async navigateTo(path: string): Promise<void> {
-        await this.page.goto(path);
+        await this.page.goto(path, { waitUntil: 'domcontentloaded' });
     }
 
     async getTitle(): Promise<string> {

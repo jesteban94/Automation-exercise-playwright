@@ -1,5 +1,8 @@
-import { Before, After, BeforeAll, AfterAll, setWorldConstructor, World, IWorldOptions, Status } from '@cucumber/cucumber';
+import { Before, After, BeforeAll, AfterAll, setWorldConstructor, World, IWorldOptions, Status, setDefaultTimeout } from '@cucumber/cucumber';
 import { chromium, Browser, BrowserContext, Page, APIRequestContext, request } from '@playwright/test';
+
+// Set global timeout for Cucumber steps to 20 seconds
+setDefaultTimeout(20000);
 
 let browser: Browser;
 
@@ -31,6 +34,14 @@ Before(async function (this: CustomWorld) {
         userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
     });
     this.page = await this.context.newPage();
+    
+    // Block Google Ads and analytics to prevent click interceptions and speed up page load
+    await this.page.route('**/*googlesyndication*', route => route.abort());
+    await this.page.route('**/*googleadservices*', route => route.abort());
+    await this.page.route('**/*google-analytics*', route => route.abort());
+    await this.page.route('**/*doubleclick*', route => route.abort());
+    await this.page.route('**/*adsbygoogle*', route => route.abort());
+
     this.apiContext = await request.newContext();
 });
 
