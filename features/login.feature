@@ -1,15 +1,14 @@
-# language: es
-Característica: Inicio de Sesión de Usuario
+Feature: Inicio de Sesión de Usuario
 
-  Antecedentes:
-    Dado que el usuario navega a la página de inicio
-    Y hace clic en la opción de iniciar sesión o registrarse
+  Background:
+    Given que el usuario navega a la página de inicio
+    And hace clic en la opción de iniciar sesión o registrarse
 
-  Escenario: Inicio de sesión fallido con credenciales inválidas
-    Cuando ingresa el correo "usuario_invalido_cucumber@example.com" y la contraseña "claveincorrecta"
-    Entonces el usuario debería ver un mensaje de error que contiene "Your email or password is incorrect!"
+  Scenario: Inicio de sesión fallido con credenciales inválidas
+    When ingresa el correo "usuario_invalido_cucumber@example.com" y la contraseña "claveincorrecta"
+    Then el usuario debería ver un mensaje de error que contiene "Your email or password is incorrect!"
 
-  Escenario: Inicio de sesión exitoso con credenciales válidas
-    Dado que existe un usuario registrado con el correo "sdet_test_playwright_cucumber@example.com" y la contraseña "Password123!"
-    Cuando ingresa el correo "sdet_test_playwright_cucumber@example.com" y la contraseña "Password123!"
-    Entonces el usuario debería iniciar sesión correctamente y ver su nombre de usuario "SDET Test"
+  Scenario: Inicio de sesión exitoso con credenciales válidas
+    Given que existe un usuario registrado con el correo "sdet_test_playwright_cucumber@example.com" y la contraseña "Password123!"
+    When ingresa el correo "sdet_test_playwright_cucumber@example.com" y la contraseña "Password123!"
+    Then el usuario debería iniciar sesión correctamente y ver su nombre de usuario "SDET Test"
