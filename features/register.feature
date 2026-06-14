@@ -1,6 +1,6 @@
 Feature: Registro de Nuevo Usuario
 
-  @smoke
+  @smoke @register @e2e
   Scenario: Registro exitoso de un nuevo usuario en la plataforma
     Given que el usuario navega a la página de inicio
     And hace clic en la opción de iniciar sesión o registrarse
