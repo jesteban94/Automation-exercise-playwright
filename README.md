@@ -149,3 +149,31 @@ El archivo [azure-pipelines.yml](azure-pipelines.yml) proporciona una configurac
 - Restaura y guarda en caché los binarios de Playwright (`%USERPROFILE%\AppData\Local\ms-playwright` en Windows o `~/.cache/ms-playwright` en Linux).
 - Ejecuta las pruebas en modo headless.
 - Publica el archivo de reporte `cucumber-report.html` como un artefacto descargable de la ejecución del pipeline.
+
+
+# Suite completa (27 escenarios, ~4 min)
+npx cucumber-js
+
+# Solo smoke (7 escenarios, ~1 min)
+npx cucumber-js --tags '@smoke'
+
+# Solo regression
+npx cucumber-js --tags '@regression'
+
+# Solo tests negativos
+npx cucumber-js --tags '@negative'
+
+# Por área funcional
+npx cucumber-js --tags '@cart or @checkout'
+npx cucumber-js --tags '@products'
+npx cucumber-js --tags '@ui'
+npx cucumber-js --tags '@api'
+
+# End-to-end solamente
+npx cucumber-js --tags '@e2e'
+
+# Headless (CI/CD)
+HEADLESS=true npx cucumber-js
+
+# Headed (visual)
+HEADLESS=false npx cucumber-js
