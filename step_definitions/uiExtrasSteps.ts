@@ -6,43 +6,40 @@ import { ContactUsPage } from '../pages/ContactUsPage';
 import { CustomWorld } from '../support/hooks';
 import { testData } from '../support/testData';
 
-When('hace clic en el botón "Contact Us" en la barra de navegación', async function (this: CustomWorld) {
+When('envía el formulario de contacto con un archivo adjunto', async function (this: CustomWorld) {
     const homePage = new HomePage(this.page);
-    await homePage.clickContactUs();
-});
-
-Then('el usuario debería ver la sección "GET IN TOUCH"', async function (this: CustomWorld) {
-    const contactUsPage = new ContactUsPage(this.page);
-    expect(await contactUsPage.isGetInTouchVisible()).toBe(true);
-});
-
-When('ingresa los datos de contacto en el formulario', async function (this: CustomWorld) {
     const contactUsPage = new ContactUsPage(this.page);
     const contact = testData.contactUs;
+    
+    // Go to contact page
+    await homePage.clickContactUs();
+    expect(await contactUsPage.isGetInTouchVisible()).toBe(true);
+    
+    // Fill details
     await contactUsPage.fillContactForm(contact.name, contact.email, contact.subject, contact.message);
-});
-
-When('sube un archivo adjunto', async function (this: CustomWorld) {
-    const contactUsPage = new ContactUsPage(this.page);
+    
+    // Upload file
     const filePath = path.resolve(__dirname, '../support/upload_sample.txt');
     await contactUsPage.uploadFile(filePath);
-});
-
-When('hace clic en enviar formulario', async function (this: CustomWorld) {
-    const contactUsPage = new ContactUsPage(this.page);
-    await this.page.waitForTimeout(500); // Give JS event listener a chance to register
+    
+    // Submit
+    await this.page.waitForTimeout(500); // Wait for JS binding
     await contactUsPage.submitForm();
 });
 
-Then('el formulario se envía y se visualiza el mensaje de éxito del contacto', async function (this: CustomWorld) {
+Then('el mensaje de éxito del contacto debe ser visible', async function (this: CustomWorld) {
     const contactUsPage = new ContactUsPage(this.page);
     const text = await contactUsPage.getSuccessMessage();
     expect(text?.trim()).toContain(testData.contactUs.successMessage);
 });
 
-When('hace clic en el botón de regresar a inicio', async function (this: CustomWorld) {
+Then('regresa a la página de inicio y valida su carga', async function (this: CustomWorld) {
     const contactUsPage = new ContactUsPage(this.page);
+    const homePage = new HomePage(this.page);
     await contactUsPage.clickHome();
+    
+    const title = await homePage.getTitle();
+    expect(title).toContain('Automation Exercise');
 });
 
 When('hace clic en el botón "Test Cases" en la barra de navegación', async function (this: CustomWorld) {
@@ -56,18 +53,10 @@ Then('el usuario debería ser redirigido a la página de test cases', async func
     expect(url).toContain('/test_cases');
 });
 
-When('se desliza hasta el footer', async function (this: CustomWorld) {
+When('se suscribe desde el footer de la página', async function (this: CustomWorld) {
     const homePage = new HomePage(this.page);
     await homePage.scrollDownToFooter();
-});
-
-Then('la sección "SUBSCRIPTION" debe estar visible', async function (this: CustomWorld) {
-    const homePage = new HomePage(this.page);
     expect(await homePage.isSubscriptionTitleVisible()).toBe(true);
-});
-
-When('ingresa un correo de suscripción y hace clic en el botón de flecha', async function (this: CustomWorld) {
-    const homePage = new HomePage(this.page);
     await homePage.subscribe(testData.validUser.email);
 });
 
@@ -77,17 +66,29 @@ Then('se debería mostrar el mensaje de éxito de suscripción', async function 
     expect(successMsg?.trim()).toContain(testData.subscription.successMessage);
 });
 
-When('hace clic en la flecha de scroll de la esquina inferior derecha', async function (this: CustomWorld) {
+When('va al carrito y se suscribe desde el footer', async function (this: CustomWorld) {
     const homePage = new HomePage(this.page);
+    await homePage.clickCart();
+    await homePage.scrollDownToFooter();
+    expect(await homePage.isSubscriptionTitleVisible()).toBe(true);
+    await homePage.subscribe(testData.validUser.email);
+});
+
+When('se desplaza al final de la página y usa el botón de scroll hacia arriba', async function (this: CustomWorld) {
+    const homePage = new HomePage(this.page);
+    await homePage.scrollPageToBottom();
+    expect(await homePage.isSubscriptionTitleVisible()).toBe(true);
     await homePage.clickScrollUpArrow();
 });
 
-Then('la página se desplaza hacia arriba y el texto del carrusel superior debe ser visible', async function (this: CustomWorld) {
+Then('la página debe subir y mostrar el carrusel superior', async function (this: CustomWorld) {
     const homePage = new HomePage(this.page);
     expect(await homePage.isCarouselTextVisible()).toBe(true);
 });
 
-When('se desliza manualmente hacia arriba de la página', async function (this: CustomWorld) {
+When('se desplaza al final de la página y sube manualmente', async function (this: CustomWorld) {
     const homePage = new HomePage(this.page);
+    await homePage.scrollPageToBottom();
+    expect(await homePage.isSubscriptionTitleVisible()).toBe(true);
     await homePage.scrollPageToTop();
 });

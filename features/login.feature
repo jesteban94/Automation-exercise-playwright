@@ -13,10 +13,7 @@ Feature: Inicio de Sesión de Usuario
     Given que existe el usuario de prueba registrado
     When ingresa las credenciales del usuario de prueba
     Then el usuario debería iniciar sesión correctamente y ver su nombre en la barra de navegación
-    # Optional test step inside TC 2 could also delete the account, but we handle that dynamically via API.
-    # In TC 2 Gherkin, let's add delete account verification for completeness.
-    When hace clic en "Delete Account"
-    Then el usuario debería ver la confirmación de cuenta eliminada exitosamente
+    And elimina la cuenta del usuario de prueba
 
   Scenario: Cerrar sesión de usuario exitosamente (Test Case 4)
     Given que existe el usuario de prueba registrado

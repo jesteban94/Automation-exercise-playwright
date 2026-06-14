@@ -6,17 +6,14 @@ import { HomePage } from '../pages/HomePage';
 import { CustomWorld } from '../support/hooks';
 import { testData } from '../support/testData';
 
-When('inicia el registro con el nombre del usuario de prueba y un correo aleatorio', async function (this: CustomWorld) {
-    const loginPage = new LoginPage(this.page);
+export async function performUserRegistration(page: any, user: typeof testData.validUser) {
+    const loginPage = new LoginPage(page);
+    const signupPage = new SignupPage(page);
+    
     const randomEmail = `sdet_test_${Date.now()}@example.com`;
-    const name = testData.validUser.name;
-    console.log(`[Registration] Registering user "${name}" with email "${randomEmail}"`);
-    await loginPage.signupInit(name, randomEmail);
-});
+    console.log(`[Registration] Registering user "${user.name}" with email "${randomEmail}"`);
+    await loginPage.signupInit(user.name, randomEmail);
 
-When('completa el formulario de registro con los datos de dirección y la contraseña del usuario de prueba', async function (this: CustomWorld) {
-    const signupPage = new SignupPage(this.page);
-    const user = testData.validUser;
     const userDetails: UserDetails = {
         gender: 'Mr',
         password: user.password,
@@ -37,27 +34,27 @@ When('completa el formulario de registro con los datos de dirección y la contra
         mobileNumber: '555-0199'
     };
     await signupPage.fillAccountDetails(userDetails);
-});
-
-When('hace clic en el botón de crear cuenta', async function (this: CustomWorld) {
-    const signupPage = new SignupPage(this.page);
     await signupPage.clickCreateAccount();
-});
+}
 
-Then('el usuario debería ver la confirmación de cuenta creada exitosamente', async function (this: CustomWorld) {
-    const signupPage = new SignupPage(this.page);
+export async function verifyUserIsLoggedIn(page: any, expectedUsername: string) {
+    const signupPage = new SignupPage(page);
+    const homePage = new HomePage(page);
+
     const isCreated = await signupPage.isAccountCreatedVisible();
     expect(isCreated).toBe(true);
     const text = await signupPage.accountCreatedHeader.textContent();
-    const expectedMessage = testData.registration.accountCreatedBanner;
-    expect(text?.trim().toUpperCase()).toBe(expectedMessage.toUpperCase());
-});
+    expect(text?.trim().toUpperCase()).toBe(testData.registration.accountCreatedBanner.toUpperCase());
 
-Then('hace clic en continuar y debería ver su nombre en la barra de navegación', async function (this: CustomWorld) {
-    const signupPage = new SignupPage(this.page);
     await signupPage.clickContinue();
-    const homePage = new HomePage(this.page);
-    const expectedUsername = testData.validUser.name;
     const isLoggedIn = await homePage.isLoggedInAs(expectedUsername);
     expect(isLoggedIn).toBe(true);
+}
+
+When('registra una nueva cuenta de usuario con datos válidos', async function (this: CustomWorld) {
+    await performUserRegistration(this.page, testData.validUser);
+});
+
+Then('el usuario debería estar registrado y ver su nombre en la barra de navegación', async function (this: CustomWorld) {
+    await verifyUserIsLoggedIn(this.page, testData.validUser.name);
 });

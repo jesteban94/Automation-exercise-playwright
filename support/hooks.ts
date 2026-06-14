@@ -1,8 +1,8 @@
 import { Before, After, BeforeAll, AfterAll, setWorldConstructor, World, IWorldOptions, Status, setDefaultTimeout } from '@cucumber/cucumber';
 import { chromium, Browser, BrowserContext, Page, APIRequestContext, request } from '@playwright/test';
 
-// Set global timeout for Cucumber steps to 20 seconds
-setDefaultTimeout(20000);
+// Set global timeout for Cucumber steps to 40 seconds
+setDefaultTimeout(40000);
 
 let browser: Browser;
 

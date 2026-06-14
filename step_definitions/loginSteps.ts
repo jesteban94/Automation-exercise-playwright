@@ -75,13 +75,9 @@ Then('el usuario debería ver el mensaje de error de correo ya registrado', asyn
     expect(errorText).toContain(testData.registration.emailExistsError);
 });
 
-When('hace clic en "Delete Account"', async function (this: CustomWorld) {
+Then('elimina la cuenta del usuario de prueba', async function (this: CustomWorld) {
     const homePage = new HomePage(this.page);
     await homePage.clickDeleteAccount();
-});
-
-Then('el usuario debería ver la confirmación de cuenta eliminada exitosamente', async function (this: CustomWorld) {
-    const homePage = new HomePage(this.page);
     const isDeletedVisible = await homePage.isAccountDeletedVisible();
     expect(isDeletedVisible).toBe(true);
     await homePage.clickContinueAfterDelete();

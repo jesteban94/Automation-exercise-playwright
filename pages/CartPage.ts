@@ -41,6 +41,9 @@ export class CartPage extends BasePage {
     }
 
     async clickRegisterLoginOnModal(): Promise<void> {
+        // Wait for the checkout modal to fully appear
+        const modal = this.page.locator('#checkoutModal');
+        await modal.waitFor({ state: 'visible', timeout: 10000 });
         await this.registerLoginModalLink.waitFor({ state: 'visible', timeout: 5000 });
         await this.registerLoginModalLink.click();
     }

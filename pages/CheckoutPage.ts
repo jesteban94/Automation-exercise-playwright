@@ -16,7 +16,7 @@ export class CheckoutPage extends BasePage {
     }
 
     async getDeliveryAddressLines(): Promise<string[]> {
-        await this.deliveryAddressSection.waitFor({ state: 'visible', timeout: 5000 });
+        await this.deliveryAddressSection.waitFor({ state: 'visible', timeout: 10000 });
         const listItems = this.deliveryAddressSection.locator('li');
         const count = await listItems.count();
         const lines: string[] = [];

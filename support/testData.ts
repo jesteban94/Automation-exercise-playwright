@@ -48,5 +48,12 @@ export const testData = {
     review: {
         comment: "Excelente producto, muy recomendado por su calidad y precio.",
         successMessage: "Thank you for your review."
+    },
+    address: {
+        street: "742 Evergreen Terrace",
+        city: "Springfield"
+    },
+    search: {
+        productName: "Blue Top"
     }
 };

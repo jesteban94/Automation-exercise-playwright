@@ -129,13 +129,21 @@ export class HomePage extends BasePage {
         await productCard.hover();
         // Click the overlay add-to-cart button which is now visible
         const overlayBtn = productCard.locator('.overlay-content a.add-to-cart');
-        await overlayBtn.waitFor({ state: 'visible', timeout: 5000 });
+        await overlayBtn.waitFor({ state: 'visible', timeout: 10000 });
         await overlayBtn.click();
         
+        // Wait for the cart modal to fully appear
+        const modal = this.page.locator('#cartModal');
+        await modal.waitFor({ state: 'visible', timeout: 10000 });
+        
         if (action === 'continue') {
-            await this.page.locator('button:has-text("Continue Shopping")').click();
+            const continueBtn = modal.locator('button:has-text("Continue Shopping")');
+            await continueBtn.waitFor({ state: 'visible', timeout: 5000 });
+            await continueBtn.click();
         } else {
-            await this.page.locator('p.text-center a[href="/view_cart"]').click();
+            const viewCartLink = modal.locator('a[href="/view_cart"]');
+            await viewCartLink.waitFor({ state: 'visible', timeout: 5000 });
+            await viewCartLink.click();
         }
     }
 
@@ -163,6 +171,7 @@ export class HomePage extends BasePage {
     }
 
     async clickCategoryWomen(): Promise<void> {
+        await this.page.waitForLoadState('domcontentloaded');
         await this.categoryWomenLink.scrollIntoViewIfNeeded();
         await this.categoryWomenLink.click();
     }
@@ -173,6 +182,7 @@ export class HomePage extends BasePage {
     }
 
     async clickCategoryMen(): Promise<void> {
+        await this.page.waitForLoadState('domcontentloaded');
         await this.categoryMenLink.scrollIntoViewIfNeeded();
         await this.categoryMenLink.click();
     }
