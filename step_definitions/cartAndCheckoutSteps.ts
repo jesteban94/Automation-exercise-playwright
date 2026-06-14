@@ -44,9 +44,9 @@ Then('ambos productos deben estar visibles en el carrito con sus respectivos pre
     expect(prod2.total).toContain('Rs.');
 });
 
-When('aumenta la cantidad del producto a {string} y hace clic en agregar al carrito', async function (this: CustomWorld, qty: string) {
+When('aumenta la cantidad del producto y hace clic en agregar al carrito', async function (this: CustomWorld) {
     const productDetailPage = new ProductDetailPage(this.page);
-    await productDetailPage.setQuantity(qty);
+    await productDetailPage.setQuantity(testData.checkout.quantity);
     await productDetailPage.clickAddToCart();
 });
 
@@ -61,10 +61,10 @@ When('hace clic en ver carrito', async function (this: CustomWorld) {
     }
 });
 
-Then('el producto debe tener la cantidad exacta de {string} en el carrito', async function (this: CustomWorld, expectedQty: string) {
+Then('el producto debe tener la cantidad exacta en el carrito', async function (this: CustomWorld) {
     const cartPage = new CartPage(this.page);
     const details = await cartPage.getProductDetails(0);
-    expect(details.quantity).toBe(expectedQty);
+    expect(details.quantity).toBe(testData.checkout.quantity);
 });
 
 When('agrega el primer producto al carrito y va al carrito', async function (this: CustomWorld) {
@@ -165,9 +165,9 @@ When('hace clic en registrarse o iniciar sesión en el modal de checkout', async
     await cartPage.clickRegisterLoginOnModal();
 });
 
-When('escribe un comentario {string} y hace clic en realizar pedido', async function (this: CustomWorld, comment: string) {
+When('escribe un comentario de prueba y hace clic en realizar pedido', async function (this: CustomWorld) {
     const checkoutPage = new CheckoutPage(this.page);
-    await checkoutPage.enterComment(comment);
+    await checkoutPage.enterComment(testData.checkout.comment);
     await checkoutPage.clickPlaceOrder();
 });
 
@@ -178,7 +178,7 @@ When('ingresa los datos de pago y hace clic en pagar y confirmar', async functio
     await paymentPage.clickPayAndConfirm();
 });
 
-Then('el pedido debería ser procesado y mostrar "ORDER PLACED!"', async function (this: CustomWorld) {
+Then('el pedido debería ser procesado y mostrar la confirmación de pedido', async function (this: CustomWorld) {
     const paymentPage = new PaymentPage(this.page);
     expect(await paymentPage.isOrderPlacedVisible()).toBe(true);
 });

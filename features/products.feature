@@ -24,7 +24,7 @@ Feature: Verificación de Productos y Detalle de Productos
     Then las categorías deben ser visibles en la barra lateral izquierda
     When hace clic en la categoría "Women"
     And hace clic en la subcategoría "Tops" de Women
-    Then el usuario debería ver la página de la categoría y confirmar el texto "WOMEN - TOPS PRODUCTS"
+    Then el usuario debería ver la página de la categoría y confirmar el texto de la categoría Women Tops
     When hace clic en la categoría "Men" en la barra lateral
     And hace clic en la subcategoría "Tshirts" de Men
     Then el usuario es redirigido a esa página de categoría de Men
@@ -46,4 +46,4 @@ Feature: Verificación de Productos y Detalle de Productos
     Then el usuario es redirigido a la página de detalle del producto
     And el usuario debería ver la sección "Write Your Review"
     When completa el formulario de reseña y hace clic en enviar
-    Then el usuario debería ver el mensaje de éxito "Thank you for your review."
+    Then el usuario debería ver el mensaje de éxito de la reseña

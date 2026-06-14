@@ -98,7 +98,7 @@ When('hace clic en la subcategoría "Tops" de Women', async function (this: Cust
     await homePage.clickSubcategoryWomenTops();
 });
 
-Then('el usuario debería ver la página de la categoría y confirmar el texto "WOMEN - TOPS PRODUCTS"', async function (this: CustomWorld) {
+Then('el usuario debería ver la página de la categoría y confirmar el texto de la categoría Women Tops', async function (this: CustomWorld) {
     const header = this.page.locator('h2.title.text-center');
     await header.waitFor({ state: 'visible', timeout: 5000 });
     const text = await header.textContent();
@@ -159,12 +159,12 @@ Then('el usuario debería ver la sección "Write Your Review"', async function (
 When('completa el formulario de reseña y hace clic en enviar', async function (this: CustomWorld) {
     const productDetailPage = new ProductDetailPage(this.page);
     const user = testData.validUser;
-    await productDetailPage.fillReview(user.name, user.email, "Excelente producto, muy recomendado por su calidad y precio.");
+    await productDetailPage.fillReview(user.name, user.email, testData.review.comment);
     await productDetailPage.submitReview();
 });
 
-Then('el usuario debería ver el mensaje de éxito "Thank you for your review."', async function (this: CustomWorld) {
+Then('el usuario debería ver el mensaje de éxito de la reseña', async function (this: CustomWorld) {
     const productDetailPage = new ProductDetailPage(this.page);
     const successMsg = await productDetailPage.getReviewSuccessMessage();
-    expect(successMsg).toContain("Thank you for your review.");
+    expect(successMsg).toContain(testData.review.successMessage);
 });

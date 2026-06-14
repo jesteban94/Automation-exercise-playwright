@@ -12,10 +12,10 @@ Feature: Gestión de Carrito de Compras y Procesamiento de Órdenes
     Given que el usuario navega a la página de inicio
     When hace clic en "View Product" del primer producto
     Then el usuario es redirigido a la página de detalle del producto
-    When aumenta la cantidad del producto a "4" y hace clic en agregar al carrito
+    When aumenta la cantidad del producto y hace clic en agregar al carrito
     And hace clic en ver carrito
     Then la página del carrito debe mostrarse
-    And el producto debe tener la cantidad exacta de "4" en el carrito
+    And el producto debe tener la cantidad exacta en el carrito
 
   Scenario: Remover productos del carrito (Test Case 17)
     Given que el usuario navega a la página de inicio
@@ -72,9 +72,9 @@ Feature: Gestión de Carrito de Compras y Procesamiento de Órdenes
     And hace clic en el botón "Cart" en la barra de navegación
     And hace clic en proceder al checkout
     Then la dirección de envío debe coincidir con la dirección registrada
-    When escribe un comentario "Comentario de prueba pedido 14" y hace clic en realizar pedido
+    When escribe un comentario de prueba y hace clic en realizar pedido
     And ingresa los datos de pago y hace clic en pagar y confirmar
-    Then el pedido debería ser procesado y mostrar "ORDER PLACED!"
+    Then el pedido debería ser procesado y mostrar la confirmación de pedido
     When hace clic en "Delete Account"
     Then el usuario debería ver la confirmación de cuenta eliminada exitosamente
 
@@ -89,9 +89,9 @@ Feature: Gestión de Carrito de Compras y Procesamiento de Órdenes
     And agrega el primer producto al carrito y va al carrito
     And hace clic en proceder al checkout
     Then la dirección de envío debe coincidir con la dirección registrada
-    When escribe un comentario "Comentario de prueba pedido 15" y hace clic en realizar pedido
+    When escribe un comentario de prueba y hace clic en realizar pedido
     And ingresa los datos de pago y hace clic en pagar y confirmar
-    Then el pedido debería ser procesado y mostrar "ORDER PLACED!"
+    Then el pedido debería ser procesado y mostrar la confirmación de pedido
     When hace clic en "Delete Account"
     Then el usuario debería ver la confirmación de cuenta eliminada exitosamente
 
@@ -104,9 +104,9 @@ Feature: Gestión de Carrito de Compras y Procesamiento de Órdenes
     When agrega el primer producto al carrito y va al carrito
     And hace clic en proceder al checkout
     Then la dirección de envío debe coincidir con la dirección registrada
-    When escribe un comentario "Comentario de prueba pedido 16" y hace clic en realizar pedido
+    When escribe un comentario de prueba y hace clic en realizar pedido
     And ingresa los datos de pago y hace clic en pagar y confirmar
-    Then el pedido debería ser procesado y mostrar "ORDER PLACED!"
+    Then el pedido debería ser procesado y mostrar la confirmación de pedido
     When hace clic en "Delete Account"
     Then el usuario debería ver la confirmación de cuenta eliminada exitosamente
 
@@ -118,9 +118,9 @@ Feature: Gestión de Carrito de Compras y Procesamiento de Órdenes
     Then el usuario debería iniciar sesión correctamente y ver su nombre en la barra de navegación
     When agrega el primer producto al carrito y va al carrito
     And hace clic en proceder al checkout
-    And escribe un comentario "Comentario de prueba factura" y hace clic en realizar pedido
+    And escribe un comentario de prueba y hace clic en realizar pedido
     And ingresa los datos de pago y hace clic en pagar y confirmar
-    Then el pedido debería ser procesado y mostrar "ORDER PLACED!"
+    Then el pedido debería ser procesado y mostrar la confirmación de pedido
     When hace clic en descargar factura
     Then la factura debería ser descargada exitosamente en formato PDF
     When hace clic en continuar en la página de éxito

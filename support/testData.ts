@@ -39,5 +39,14 @@ export const testData = {
     brands: {
         poloHeader: "BRAND - POLO PRODUCTS",
         madameHeader: "BRAND - MADAME PRODUCTS"
+    },
+    checkout: {
+        quantity: "4",
+        comment: "Comentario de prueba - pedido automatizado",
+        successMessage: "ORDER PLACED!"
+    },
+    review: {
+        comment: "Excelente producto, muy recomendado por su calidad y precio.",
+        successMessage: "Thank you for your review."
     }
 };
