@@ -58,3 +58,26 @@ Then('elimina la cuenta del usuario de prueba', async function (this: CustomWorl
     expect(isDeletedVisible).toBe(true);
     await homePage.clickContinueAfterDelete();
 });
+
+When('hace clic en el botón "Logout"', async function (this: CustomWorld) {
+    homePage = new HomePage(this.page);
+    await homePage.clickLogout();
+});
+
+Then('el usuario debería ser redirigido a la página de login', async function (this: CustomWorld) {
+    loginPage = new LoginPage(this.page);
+    const url = await loginPage.getUrl();
+    expect(url).toContain('/login');
+});
+
+When('inicia el registro con el nombre del usuario de prueba y el correo existente', async function (this: CustomWorld) {
+    loginPage = new LoginPage(this.page);
+    const user = testData.validUser;
+    await loginPage.signupInit(user.name, user.email);
+});
+
+Then('el usuario debería ver el mensaje de error de correo ya registrado', async function (this: CustomWorld) {
+    loginPage = new LoginPage(this.page);
+    const errorText = await loginPage.getSignupErrorMessage();
+    expect(errorText).toContain(testData.registration.emailExistsError);
+});
