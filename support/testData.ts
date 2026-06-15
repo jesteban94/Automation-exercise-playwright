@@ -55,5 +55,24 @@ export const testData = {
     },
     search: {
         productName: "Blue Top"
-    }
+    },
+    defaultRegistrationDetails: {
+      gender: 'Mr',
+      password: '', // Se sobreescribe en el step
+      day: '15',
+      month: 'August',
+      year: '1990',
+      newsletter: true,
+      optin: false,
+      firstName: 'SDET',
+      lastName: 'Test',
+      company: 'Automation Org',
+      address: '742 Evergreen Terrace',
+      address2: 'Apt 4B',
+      country: 'United States',
+      state: 'Springfield',
+      city: 'Springfield',
+      zipcode: '97477',
+      mobileNumber: '555-0199'
+  }
 };

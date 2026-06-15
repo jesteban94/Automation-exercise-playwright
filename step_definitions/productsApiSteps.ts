@@ -13,12 +13,8 @@ Given('que el servicio de productos está disponible', async function (this: Cus
 
 When('envío una solicitud GET para obtener todos los productos', async function () {
     apiResponse = await productClient.getProductsList();
-    const responseText = await apiResponse.text();
-    try {
-        responseBody = JSON.parse(responseText);
-    } catch (e) {
-        throw new Error(`Failed to parse API response as JSON. Response was: ${responseText}`);
-    }
+    // Playwright realiza el parseo a JSON de manera segura automáticamente
+    responseBody = await apiResponse.json();
 });
 
 Then('la respuesta de la API de productos debe tener un código de estado 200', async function () {
