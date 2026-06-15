@@ -82,3 +82,11 @@ export async function verifyUserIsLoggedIn(page: Page, expectedUsername: string)
     const isLoggedIn = await localHomePage.isLoggedInAs(expectedUsername);
     expect(isLoggedIn).toBe(true);
 }
+
+When('registra una nueva cuenta de usuario con datos válidos', async function (this: CustomWorld) {
+    await performUserRegistration(this.page, testData.validUser);
+});
+
+Then('el usuario debería estar registrado y ver su nombre en la barra de navegación', async function (this: CustomWorld) {
+    await verifyUserIsLoggedIn(this.page, testData.validUser.name);
+});

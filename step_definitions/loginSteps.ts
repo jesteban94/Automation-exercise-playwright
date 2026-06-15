@@ -50,3 +50,11 @@ Then('el usuario debería ver el mensaje de error de credenciales incorrectas', 
     const errorText = await loginPage.getLoginErrorMessage();
     expect(errorText).toContain(user.expectedError);
 });
+
+Then('elimina la cuenta del usuario de prueba', async function (this: CustomWorld) {
+    homePage = new HomePage(this.page);
+    await homePage.clickDeleteAccount();
+    const isDeletedVisible = await homePage.isAccountDeletedVisible();
+    expect(isDeletedVisible).toBe(true);
+    await homePage.clickContinueAfterDelete();
+});
