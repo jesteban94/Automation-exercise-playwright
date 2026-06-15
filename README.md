@@ -141,14 +141,22 @@ Al finalizar cualquier ejecución, se genera un reporte interactivo en formato H
 
 ---
 
-## ⚙️ Integración Continua (CI/CD) - Azure DevOps
+## ⚙️ Integración Continua (CI/CD)
 
-El archivo [azure-pipelines.yml](azure-pipelines.yml) proporciona una configuración optimizada para la capa gratuita de Azure DevOps:
-- Configura Node.js v20.
-- Restaura y guarda en caché las dependencias `node_modules` de npm.
-- Restaura y guarda en caché los binarios de Playwright (`%USERPROFILE%\AppData\Local\ms-playwright` en Windows o `~/.cache/ms-playwright` en Linux).
-- Ejecuta las pruebas en modo headless.
-- Publica el archivo de reporte `cucumber-report.html` como un artefacto descargable de la ejecución del pipeline.
+El proyecto está configurado para demostrar los dos motores de CI/CD más populares, permitiendo una comparación directa en clase:
+
+### 1. GitHub Actions (Recomendado para el curso) 🏆
+El archivo [.github/workflows/ci.yml](.github/workflows/ci.yml) contiene el pipeline nativo:
+- **Ejecución Inmediata:** Los estudiantes solo deben hacer *fork* del repositorio y realizar un commit para ver el pipeline ejecutarse al instante.
+- **Configuración Completa:** Descarga del código, instalación de Node.js v20 con caché de dependencias, descarga de binarios de Playwright, ejecución en modo *headless* y subida del reporte HTML.
+- **Visualización en PRs:** Muestra el check de calidad verde/rojo directamente en GitHub, ilustrando perfectamente el concepto de *Quality Gates* y *Shift-Left Testing*.
+
+### 2. Azure DevOps (Azure Pipelines)
+El archivo [azure-pipelines.yml](azure-pipelines.yml) proporciona la configuración homóloga:
+- Configura Node.js v20, caché de dependencias npm y binarios de Playwright, y ejecuta la suite de Cucumber.
+- Publica el archivo de reporte `cucumber-report.html` como un artefacto descargable del pipeline.
+- **Aviso Docente:** Requiere registro externo en `dev.azure.com` y solicitar previamente agentes de Microsoft (la aprobación puede demorar entre 2 y 3 días hábiles).
+
 
 
 # Suite completa (27 escenarios, ~4 min)
