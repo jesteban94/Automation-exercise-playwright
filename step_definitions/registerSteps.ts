@@ -1,5 +1,5 @@
 import { When, Then } from '@cucumber/cucumber';
-import { expect } from '@playwright/test';
+import { expect, Page } from '@playwright/test';
 import { LoginPage } from '../pages/LoginPage';
 import { SignupPage, UserDetails } from '../pages/SignupPage';
 import { HomePage } from '../pages/HomePage';
@@ -23,8 +23,11 @@ When('inicia el registro con el nombre del usuario de prueba y un correo aleator
 When('completa el formulario de registro con los datos de dirección y la contraseña del usuario de prueba', async function () {
     const user = testData.validUser;
 
-    // Tomamos la data base de registro y sobreescribimos la contraseña dinámicamente
-    const userDetails: UserDetails = { ...testData.defaultRegistrationDetails, password: user.password };
+    const userDetails: UserDetails = { 
+        ...testData.defaultRegistrationDetails, 
+        gender: testData.defaultRegistrationDetails.gender as 'Mr' | 'Mrs',
+        password: user.password 
+    };
 
     await signupPage.fillAccountDetails(userDetails);
 });
@@ -48,3 +51,34 @@ Then('hace clic en continuar y debería ver su nombre en la barra de navegación
     const isLoggedIn = await homePage.isLoggedInAs(expectedUsername);
     expect(isLoggedIn).toBe(true);
 });
+
+export async function performUserRegistration(page: Page, user: typeof testData.validUser) {
+    const localLoginPage = new LoginPage(page);
+    const localSignupPage = new SignupPage(page);
+    
+    const localRandomEmail = `sdet_test_${Date.now()}@example.com`;
+    console.log(`[Registration Helper] Registering user "${user.name}" with email "${localRandomEmail}"`);
+    await localLoginPage.signupInit(user.name, localRandomEmail);
+
+    const userDetails: UserDetails = { 
+        ...testData.defaultRegistrationDetails, 
+        gender: testData.defaultRegistrationDetails.gender as 'Mr' | 'Mrs',
+        password: user.password 
+    };
+    await localSignupPage.fillAccountDetails(userDetails);
+    await localSignupPage.clickCreateAccount();
+}
+
+export async function verifyUserIsLoggedIn(page: Page, expectedUsername: string) {
+    const localSignupPage = new SignupPage(page);
+    const localHomePage = new HomePage(page);
+
+    const isCreated = await localSignupPage.isAccountCreatedVisible();
+    expect(isCreated).toBe(true);
+    const text = await localSignupPage.accountCreatedHeader.textContent();
+    expect(text?.trim().toUpperCase()).toBe(testData.registration.accountCreatedBanner.toUpperCase());
+
+    await localSignupPage.clickContinue();
+    const isLoggedIn = await localHomePage.isLoggedInAs(expectedUsername);
+    expect(isLoggedIn).toBe(true);
+}
