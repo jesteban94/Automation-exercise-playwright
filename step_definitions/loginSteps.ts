@@ -30,7 +30,7 @@ Given('que existe el usuario de prueba registrado', async function (this: Custom
 });
 
 When('ingresa las credenciales del usuario de prueba', async function () {
-    const user = testData.validUser;
+    const user = testData.invalidUser;
     await loginPage.login(user.email, user.password);
 });
 
