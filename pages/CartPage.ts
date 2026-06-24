@@ -15,7 +15,7 @@ export class CartPage extends BasePage {
 
     constructor(page: Page) {
         super(page);
-        this.cartTable = page.locator('#cart_info_table');
+        this.cartTable = page.locator('#cart_info_tableTest');
         this.cartRows = page.locator('#cart_info_table tbody tr');
         this.proceedToCheckoutBtn = page.locator('a.check_out');
         this.registerLoginModalLink = page.locator('#checkoutModal a[href="/login"]');
