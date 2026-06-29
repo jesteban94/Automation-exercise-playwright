@@ -48,7 +48,9 @@ Then('hace clic en continuar y debería ver su nombre en la barra de navegación
     await signupPage.clickContinue();
     homePage = new HomePage(this.page);
     const expectedUsername = testData.validUser.name;
-    const isLoggedIn = await homePage.isLoggedInAs(expectedUsername);
+    // BUG-09 (Deliberate): Expects user 'Wrong Name' instead of 'SDET Test'.
+    // The student must replace 'Wrong Name' with expectedUsername to make the test pass.
+    const isLoggedIn = await homePage.isLoggedInAs('Wrong Name');
     expect(isLoggedIn).toBe(true);
 });
 
@@ -82,11 +84,3 @@ export async function verifyUserIsLoggedIn(page: Page, expectedUsername: string)
     const isLoggedIn = await localHomePage.isLoggedInAs(expectedUsername);
     expect(isLoggedIn).toBe(true);
 }
-
-When('registra una nueva cuenta de usuario con datos válidos', async function (this: CustomWorld) {
-    await performUserRegistration(this.page, testData.validUser);
-});
-
-Then('el usuario debería estar registrado y ver su nombre en la barra de navegación', async function (this: CustomWorld) {
-    await verifyUserIsLoggedIn(this.page, testData.validUser.name);
-});

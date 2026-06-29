@@ -18,4 +18,17 @@ export class ProductClient {
         });
         return response;
     }
+
+    async searchProduct(searchProduct: string): Promise<APIResponse> {
+        const response = await this.request.post(`${this.baseUrl}/searchProduct`, {
+            form: {
+                search_product: searchProduct
+            },
+            headers: {
+                'Accept': 'application/json',
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) PlaywrightTest'
+            }
+        });
+        return response;
+    }
 }

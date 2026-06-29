@@ -29,7 +29,22 @@ Given('que existe el usuario de prueba registrado', async function (this: Custom
     expect(response.status()).toBe(200);
 });
 
+Given('inicia sesión con el usuario de prueba', async function (this: CustomWorld) {
+    const homePage = new HomePage(this.page);
+    const loginPage = new LoginPage(this.page);
+    const user = testData.validUser;
+    
+    await homePage.clickSignupLogin();
+    await loginPage.login(user.email, user.password);
+    
+    const isLoggedIn = await homePage.isLoggedInAs(user.name);
+    expect(isLoggedIn).toBe(true);
+});
+
+
 When('ingresa las credenciales del usuario de prueba', async function () {
+    // BUG-10 (Deliberate): Uses invalidUser credentials during the valid login flow, which causes login failure.
+    // The student must change this to use testData.validUser.
     const user = testData.invalidUser;
     await loginPage.login(user.email, user.password);
 });

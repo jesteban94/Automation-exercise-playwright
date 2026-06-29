@@ -1,31 +1,37 @@
-Feature: Verificación de Productos y Detalle de Productos
+Feature: HU03 y HU05 - Gestión de Búsqueda y Adición de Productos (Team A)
 
-  @smoke @products
-  Scenario: Verificar todos los productos y la página de detalle del producto (Test Case 8)
+  Background:
     Given que el usuario navega a la página de inicio
-    When va a la sección de productos y selecciona el primer producto
-    Then el detalle del producto debe mostrar toda su información correcta
 
-  @regression @products
-  Scenario: Buscar un producto específico (Test Case 9)
-    Given que el usuario navega a la página de inicio
-    When busca un producto específico desde la página de productos
+  # HU03 - Productos - Buscar productos
+  @regression @products @search @teamA
+  Scenario: Buscar un producto específico de forma exitosa
+    When busca un producto específico desde la página de productos con el término "Blue Top"
     Then todos los productos relacionados con la búsqueda deben ser visibles
 
-  @regression @products
-  Scenario: Visualizar productos por categoría (Test Case 18)
-    Given que el usuario navega a la página de inicio
-    When filtra los productos por la categoría Women Tops y luego por Men Tshirts
-    Then la página debe mostrar los títulos de las categorías correspondientes
+  @regression @products @search @teamA
+  Scenario: Buscar productos con un término sin coincidencias
+    When busca un producto específico desde la página de productos con el término "computadora"
+    Then el listado de productos buscados debe estar vacío
 
-  @regression @products
-  Scenario: Visualizar y agregar al carrito productos por marca (Test Case 19)
-    Given que el usuario navega a la página de inicio
-    When filtra los productos por la marca Polo y luego por Madame
-    Then la página debe mostrar los productos filtrados de cada marca
+  @regression @products @search @teamA
+  Scenario: Buscar productos con entrada de texto vacía
+    When busca un producto específico desde la página de productos con el término ""
+    Then todos los productos de la tienda deben ser visibles
 
-  @regression @products
-  Scenario: Agregar una reseña a un producto (Test Case 21)
-    Given que el usuario navega a la página de inicio
-    When abre el detalle del primer producto y envía una reseña
-    Then el mensaje de éxito de la reseña debe ser visible
+  # HU05 - Productos - Agregar producto al carrito
+  @smoke @products @cart @teamA
+  Scenario: Agregar producto al carrito desde la lista general
+    When agrega el primer producto al carrito y decide continuar comprando
+    Then el carrito debe contener el primer producto agregado
+
+  @smoke @products @cart @teamA
+  Scenario: Confirmar producto agregado y redirigir al carrito
+    When agrega el primer producto al carrito y decide ver el carrito
+    Then la página del carrito debe mostrar el producto agregado
+
+  @regression @products @cart @teamA
+  Scenario: Agregar múltiples productos y verificar acumulación en el carrito
+    When agrega el primer producto al carrito y decide continuar comprando
+    And agrega el segundo producto al carrito y decide ver el carrito
+    Then la página del carrito debe mostrar ambos productos agregados
