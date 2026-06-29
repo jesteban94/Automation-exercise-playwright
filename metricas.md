@@ -5,6 +5,35 @@ Este documento es el panel de control interactivo para los **Equipos A, B y C**.
 
 ---
 
+## 📖 Guía del Estudiante: Cómo Trabajar en la Práctica
+
+Para interactuar con este panel de métricas, analizar el código, depurar fallos y registrar resultados, sigan estas instrucciones:
+
+### 1. Visualizar y Editar este Panel (`metricas.md`)
+*   **Vista Previa Formateada:** En VS Code, pulsen las teclas `Ctrl + Shift + V` (o `Cmd + Shift + V` en macOS) para abrir la vista previa interactiva. Esto les permitirá ver el diagrama de Mermaid, las alertas destacadas y el formato correcto de las tablas.
+*   **Edición del Archivo:** Para modificar tablas, editen el archivo de texto directamente. Cada celda está delimitada por barras verticales (`|`). Mantengan la alineación para evitar romper la visualización de la tabla.
+
+### 2. Ejecutar y Analizar Pruebas
+1.  **Ejecutar Tests de tu Equipo:** Utilicen los comandos de filtrado por tags para correr únicamente sus pruebas:
+    *   *Equipo A:* `npx cucumber-js --tags "@teamA"`
+    *   *Equipo B:* `npx cucumber-js --tags "@teamB"`
+    *   *Equipo C:* `npx cucumber-js --tags "@teamC"`
+2.  **Ver el Reporte de Playwright:** Tras ejecutar los tests, abran en su navegador el archivo [cucumber-report.html](file:///c:/Users/Esteban/Documents/Automation-exercise/cucumber-report.html) generado en la raíz del proyecto. Este reporte contiene capturas de pantalla integradas con el estado exacto de la página al momento del fallo.
+
+### 3. Modificar y Verificar Cambios de Código
+*   **Ver Cambios de Código en Local:** Antes de enviar cambios o si quieren analizar qué han modificado en las definiciones de pasos (`step_definitions/`) o páginas (`pages/`), ejecuten en su terminal:
+    ```bash
+    git diff
+    ```
+    Esto les mostrará en verde las líneas añadidas y en rojo las eliminadas para que puedan entender el impacto de sus ajustes.
+*   **Verificar que los Tests Pasen:** Modifiquen el código de la prueba o del localizador que causa el error y vuelvan a correr el test de su equipo para asegurar que el indicador de consola cambie a exitoso (`passed`).
+
+### 4. Registrar Métricas y Bugs
+*   **Log de Fallos:** Registren los bugs corregidos o encontrados en la **Sección 5** añadiendo los datos correspondientes en la tabla de su equipo.
+*   **Consolidar Sprint:** Actualicen las estadísticas en la **Sección 6** recalculando la Tasa de Paso de acuerdo a las ejecuciones finales en local o en GitHub Actions.
+
+---
+
 ## 🎯 1. Objetivos del Laboratorio
 1. **Alinear Negocio y Calidad:** Utilizar la evaluación de riesgos funcionales y no funcionales para decidir qué probar, cómo probar (UI, API o Híbrido) y a qué darle prioridad.
 2. **Monitorear la Calidad en Tiempo Real:** Configurar y actualizar métricas clave que reflejen la estabilidad del código ante las pruebas automatizadas ejecutadas en el pipeline de CI/CD.
