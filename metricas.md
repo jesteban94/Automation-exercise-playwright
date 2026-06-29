@@ -115,8 +115,8 @@ Para completar con éxito la práctica, sigan este flujo de trabajo dentro del e
 ### 🔵 Equipo B - Componente: Carrito (HU-CART-01, HU-CART-02)
 | ID Bug | Fecha | Historia de Usuario | Tipo de Prueba | Descripción del Fallo (Detallado) | Impacto | Estado |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| *EJ-B1* | 2026-06-29 | HU-CART-01 | UI (E2E) | Al añadir más de 2 productos de forma consecutiva muy rápido, el modal se congela y no se añaden los ítems (Race Condition). | Alta | 🔴 Abierto |
-| *EJ-B2* | 2026-06-29 | HU-CART-01 | API | La llamada `/api/addToCart` (simulada) responde con latencias superiores a 3000ms violando el SLA. | Alta | 🟡 Investigando |
+| *EJ-B1* | 2026-06-29 | HU-CART-01 | UI (E2E) | Al eliminar todos los productos del carrito no esperaba tiempo suficiente para validar el mensaje de Carrito Vacio. | Bajo | 🟢 Resuelto |
+| *EJ-B2* | 2026-06-29 | HU-CART-01 | API | Al intentar hacer checkout sin iniciar sesion desde el carrito no se validaba la visibilidad del modal de iniciar sesion de correcta. | Alta | 🟢  Resuelto |
 | | | | | | | |
 
 ### 🟡 Equipo C - Componente: Signup / Login (HU01, HU02)

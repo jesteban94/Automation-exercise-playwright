@@ -46,7 +46,7 @@ Then('el carrito de compras debe quedar vacío', async function (this: CustomWor
     cartPage = new CartPage(this.page);
     // BUG-07 (Deliberate): immediate check without waiting for the AJAX request to complete or row fadeout.
     // The student should wait for the empty cart message to be visible:
-    // await cartPage.emptyCartMessage.waitFor({ state: 'visible', timeout: 5000 });
+    await cartPage.emptyCartMessage.waitFor({ state: 'visible', timeout: 5000 });
     const count = await cartPage.getCartProductsCount();
     expect(count).toBe(0);
 });
@@ -63,7 +63,7 @@ Then('se debe mostrar el modal indicando que requiere autenticación', async fun
     // BUG-08 (Deliberate): Asserts that the modal should not be visible.
     // The student must change this to toBe(true) to reflect correct behavior.
     const isVisible = await modal.isVisible();
-    expect(isVisible).toBe(false); 
+    expect(isVisible).toBe(true); 
 });
 
 When('hace clic en Register Login en el modal', async function (this: CustomWorld) {
