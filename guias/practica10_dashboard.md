@@ -1,4 +1,4 @@
-# 📝 Guía de Laboratorio: Construcción de un Dashboard Centralizado de Pruebas
+# 📝 Práctica 10: Actividad de Laboratorio: "Construcción de un Dashboard Centralizado de Pruebas"
 ## Módulo de Agile Testing y Métricas de Calidad en CI/CD
 
 Esta actividad práctica conecta la telemetría técnica (Playwright + GitHub Actions) con la gestión ágil (Trello) mediante la construcción de un panel centralizado (Dashboard) de calidad en el repositorio y la simulación de ceremonias Scrum centradas en la mitigación de deuda técnica.
