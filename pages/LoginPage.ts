@@ -47,7 +47,12 @@ export class LoginPage extends BasePage {
     }
 
     async getSignupErrorMessage(): Promise<string | null> {
-        await this.signupErrorMessage.waitFor({ state: 'visible', timeout: 5000 });
+        await this.signupErrorMessage.waitFor({ state: 'hidden', timeout: 5000 });
         return this.signupErrorMessage.textContent();
+        
     }
 }
+
+/* Repositorio ver cambios */
+/* Repositorio ver cambios */
+/* Repositorio ver cambios */
