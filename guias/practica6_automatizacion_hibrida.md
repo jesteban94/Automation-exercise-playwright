@@ -1,49 +1,64 @@
-# 📝 Práctica 6: Actividad de Laboratorio: "Automatización Híbrida UI + API con Playwright"
+# 📝 Guía de Laboratorio: Automatización Híbrida UI + API con Playwright
+## Módulo: Estrategias de Automatización Avanzada y Pruebas Híbridas
 
-Este laboratorio integra la validación de interfaces de usuario y servicios web, demostrando cómo una herramienta moderna basada en código permite abarcar múltiples cuadrantes de la prueba. (Nota: Los comandos de Playwright mencionados son adaptaciones técnicas y no provienen directamente de los manuales del ISTQB).
+Este laboratorio demuestra cómo herramientas de automatización modernas permiten estructurar escenarios híbridos, combinando la interacción de la interfaz gráfica con llamadas directas de API en un único flujo para maximizar la velocidad y robustez.
 
-## Paso 1: Definición del Escenario BDD (Transparencia en Trello)
+---
 
-Vaya al tablero de tareas ágil, seleccione una historia de usuario de la columna "Por hacer" relacionada con la creación de registros (ej. Crear un nuevo cliente) y muévala a la columna "En curso".
+## 🎯 Objetivos de Aprendizaje
+*   **Pruebas Híbridas:** Aprender a combinar validaciones de frontend y backend en una misma sesión de prueba.
+*   **Aprovechamiento de API en Playwright:** Utilizar el contexto de peticiones de API (`APIRequestContext`) en conjunto con el contexto de página (`Page`).
+*   **Depuración de Red:** Analizar el DOM y las peticiones de red utilizando el Trace Viewer.
 
-Redacte el escenario en los comentarios de Trello usando el formato BDD:
+⏱️ **Duración Estimada:** 2 Horas
 
-```gherkin
-*   *Dado que el usuario está en el formulario de alta.*
-*   *Cuando ingresa datos válidos y envía el formulario a través de la UI.*
-*   *Entonces la API del sistema debe devolver el nuevo cliente almacenado correctamente.*
-```
+---
 
-## Paso 2: Creación del Script Híbrido
+## 📝 Paso 1: Definición del Escenario BDD (Trello)
+1.  Seleccionen una historia de usuario de creación de registros (ej: buscar productos o agregar ítems) de la columna "Por hacer" en Trello y muévanla a la columna "En curso".
+2.  Redacten el escenario híbrido en los comentarios de la tarjeta en Trello:
+    ```gherkin
+    Dado que el usuario completa una acción en la Interfaz de Usuario (UI)
+    Cuando el sistema procesa el flujo en pantalla
+    Entonces la API del backend debe reflejar y validar el cambio con los datos correctos
+    ```
 
-En su entorno de Playwright, cree un nuevo archivo de prueba (ej. registro_hibrido.spec.ts).
+## ⚙️ Paso 2: Creación del Script de Prueba Híbrido
+1.  En su proyecto de Playwright, creen un nuevo archivo de pruebas (ej: `tests/registro_hibrido.spec.ts`).
+2.  Importen los objetos `test`, `expect` y las interfaces necesarias. En el bloque de pruebas, hagan uso de los parámetros inyectados de Playwright `page` (para controlar la UI) y `request` (para invocar servicios HTTP):
+    ```typescript
+    test('Validación híbrida de producto', async ({ page, request }) => {
+      // Código de la prueba
+    });
+    ```
+3.  Estructuren el código utilizando bloques descriptivos `test.step` para segmentar visualmente el flujo de los pasos.
 
-Importe tanto el objeto page (para controlar el navegador) como el objeto request (para las peticiones de API) en el bloque de prueba.
+## 🖥️ Paso 3: Automatización de la Interfaz de Usuario (UI)
+1.  Automaticen la interacción inicial con el formulario o catálogo de productos usando `page.goto()`, `page.fill()` y `page.click()`.
+2.  Hagan clic en la acción correspondiente de la interfaz para completar el flujo funcional visual del sistema.
 
-Utilice la funcionalidad de bloques descriptivos (test.step) para estructurar el código visualmente de acuerdo a los pasos Dado / Cuando / Entonces definidos anteriormente.
+## 🔌 Paso 4: Validación e Integración vía API
+1.  En lugar de limitarse a buscar un elemento visual de éxito en la interfaz (que puede ser lento o inestable), utilicen el objeto `request` de Playwright para consultar directamente el endpoint del backend:
+    ```typescript
+    const apiResponse = await request.get('https://automationexercise.com/api/productsList');
+    expect(apiResponse.status()).toBe(200);
+    const body = await apiResponse.json();
+    ```
+2.  Validen que los datos de la respuesta en formato JSON (como el nombre del producto o ID) coincidan exactamente con la entrada que se introdujo previamente en la interfaz de usuario.
 
-## Paso 3: Interacción con la Interfaz de Usuario (UI)
-
-Automatice los pasos iniciales usando page.goto() y page.fill() para navegar y completar los datos en el formulario web.
-
-Haga clic en el botón de guardar. Esto cubre la parte de prueba funcional a nivel sistema.
-
-## Paso 4: Validación a través de la API (Integración)
-
-En lugar de verificar solo el mensaje de éxito visual, utilice Playwright para realizar una llamada request.get('/api/clientes/nuevo_id').
-
-Valide la respuesta interceptada en formato JSON comprobando que el código de estado es HTTP 200 y que los datos devueltos (ej. responseBody.nombre) coinciden con lo que se introdujo en la UI.
+## 🏁 Paso 5: Ejecución, Trace Viewer y Definition of Done
+1.  Ejecuten la prueba desde su consola:
+    ```bash
+    npx playwright test
+    ```
+2.  Si la prueba falla, inicien el visualizador de trazas (`Trace Viewer`) para analizar tanto las capturas visuales de la UI como el historial de llamadas de red (Network Tab) realizadas durante la ejecución en la nube.
+3.  Si la prueba pasa, adjunten las evidencias del reporte a la tarjeta de Trello y muévanla a "Hecho" cumpliendo con los estándares de la iteración.
 
 > [!NOTE]
-> **¿Por qué hacer esto?**
-> Esto garantiza una validación real entre unidades (frontend y backend), alineándose con el objetivo de eliminar defectos integrales de manera temprana.
+> Las pruebas híbridas reducen la fragilidad de las aserciones visuales en el frontend y nos permiten certificar la integridad de los datos en la base de datos y lógica del backend de forma rápida.
 
-## Paso 5: Ejecución, Rastreo y DoD
+---
 
-Ejecute la prueba con npx playwright test.
-
-Si la prueba falla, utilice el Trace Viewer de Playwright para analizar la causa raíz (analizando tanto la red como el DOM del navegador).
-
-Si la prueba pasa y cumple todos los criterios definidos, adjunte la evidencia del HTML Report al tablero y mueva la tarea a la columna "Hecho", completando así el flujo de trabajo de la iteración.
-
-Con esta sesión finalizamos el Módulo 3, dotando al equipo con las competencias necesarias para codificar pruebas de aceptación robustas y multifacéticas. El próximo paso (Módulo 4) será integrar estos scripts automatizados dentro de un canal de Integración Continua.
+## 📝 Preguntas de Reflexión y Análisis Crítico (Para los Estudiantes)
+1.  ¿Qué ventajas en estabilidad y velocidad tiene realizar un flujo híbrido (ej: crear datos por API y verificar por UI, o viceversa) frente a un flujo puramente de UI?
+2.  ¿Cómo apoya el uso del Trace Viewer de Playwright a la reducción del tiempo medio de resolución de defectos (MTTR)?

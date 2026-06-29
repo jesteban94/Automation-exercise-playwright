@@ -1,43 +1,60 @@
-# 📝 Práctica 5: Actividad de Laboratorio: "Mi Primer Script de UI en Playwright"
+# 📝 Guía de Laboratorio: Mi Primer Script de UI en Playwright
+## Módulo: Automatización de Pruebas de Interfaz de Usuario (UI)
 
-Este laboratorio integra los conceptos de la Pirámide de Prueba y el Cuadrante Q2, utilizando Playwright para automatizar una historia de usuario real previamente refinada. (Nota: Los comandos técnicos específicos de Playwright detallados a continuación no provienen de los manuales del ISTQB y requieren un entorno con Node.js).
+Este laboratorio integra la Pirámide de Prueba y el Cuadrante Q2, guiando en la configuración e inicialización del framework moderno Playwright para escribir el primer script de automatización del flujo de interfaz.
 
-## Paso 1: Selección y Transparencia (En Trello)
+---
 
-En el tablero de tareas ágil, identifique una Historia de Usuario (etiqueta verde) con criterios de aceptación de interfaz definidos (ej. "Login exitoso").
+## 🎯 Objetivos de Aprendizaje
+*   **Inicialización del Framework:** Aprender a configurar un proyecto base de Playwright con TypeScript.
+*   **Playwright Codegen:** Utilizar el generador de código automático para mapear los primeros pasos interactivos en el navegador.
+*   **Aserciones Estables:** Implementar oráculos de prueba estables mediante aserciones (`expect`) y análisis crítico de localizadores (Locators).
 
-Mueva la tarjeta de prueba asociada (etiqueta naranja) de la columna "Por hacer" a "En curso" para mantener la visibilidad del avance.
+⏱️ **Duración Estimada:** 1.5 Horas
 
-## Paso 2: Inicialización del Entorno Playwright
+---
 
-Abra su terminal o línea de comandos en la carpeta del proyecto.
+## 🎯 Paso 1: Selección y Transparencia en Trello
+1.  En su tablero ágil de Trello, identifiquen una Historia de Usuario (etiqueta **verde**) con criterios de aceptación de UI definidos.
+2.  Muevan la tarjeta de prueba asociada (etiqueta **naranja**) de la columna **"Por hacer"** a **"En curso"** para que todo el equipo conozca que se ha iniciado la automatización.
 
-Ejecute el comando de instalación: npm init playwright@latest.
+## ⚙️ Paso 2: Inicialización del Entorno Playwright
+1.  Abran su terminal de comandos en la carpeta raíz de su proyecto.
+2.  Ejecuten el comando de instalación del framework:
+    ```bash
+    npm init playwright@latest
+    ```
+3.  Seleccionen **TypeScript**, acepten el nombre por defecto para la carpeta de pruebas y acepten descargar los navegadores y el workflow de GitHub Actions por defecto.
 
-Seleccione TypeScript (o JavaScript) y acepte la configuración por defecto para crear la estructura base de pruebas.
+## 🔴 Paso 3: Grabación del Flujo con Playwright Codegen
+1.  Abran el generador de código automático de Playwright ejecutando:
+    ```bash
+    npx playwright codegen https://automationexercise.com/
+    ```
+2.  En la ventana del navegador que se abre, realicen las interacciones necesarias para completar el "camino feliz" de su funcionalidad (ej: navegar a login, ingresar datos y confirmar).
+3.  Detengan la grabación, copien el código generado en la ventana del inspector y péguenlo en un nuevo archivo de pruebas dentro de la carpeta `/tests` (ej. `tests/login.spec.ts`).
 
-## Paso 3: Grabación del Flujo con Codegen
+## 🔧 Paso 4: Refinamiento de Selectores y Afirmaciones (Assertions)
+1.  Analicen el código grabado de forma crítica. Los selectores generados automáticamente a veces pueden ser frágiles. Cámbienlos por localizadores estables (ej: usando roles como `page.getByRole('button', { name: 'Signup / Login' })`).
+2.  Añadan sentencias de verificación (**Aserciones**) al final de su script utilizando la función `expect` de Playwright para validar que la prueba realmente comprueba un resultado oráculo.
+    *   *Ejemplo:* `await expect(page.locator('li:has(i.fa-user)')).toBeVisible();`
 
-Utilice el grabador de Playwright ejecutando: npx playwright codegen <URL_DE_TU_APP>.
+## 🚀 Paso 5: Ejecución y Evidencia Continua
+1.  Corran la prueba en modo visible para verificar que los pasos son consistentes:
+    ```bash
+    npx playwright test --headed
+    ```
+2.  Generen y abran el reporte local para comprobar los resultados:
+    ```bash
+    npx playwright show-report
+    ```
+3.  Tomen una captura de pantalla del reporte exitoso (en verde), adjúntenla como evidencia a su tarjeta de Trello y muevan la tarjeta a la columna **"Pruebas / Verificación"**.
 
-Interactúe con la aplicación web realizando el "camino feliz" que cubra el criterio de aceptación principal.
+> [!TIP]
+> Si la prueba falla en alguno de los pasos, utilicen el visualizador de trazas (`Trace Viewer`) de Playwright para analizar los elementos del DOM y capturar la causa raíz exacta de la falla.
 
-Detenga la grabación y copie el código generado automáticamente en un nuevo archivo dentro de la carpeta /tests (ej. login.spec.ts).
+---
 
-## Paso 4: Refinamiento y Afirmaciones (Assertions)
-
-Como probador ágil, aplique el pensamiento crítico sobre el código grabado: asegúrese de que los selectores (Locators) sean estables y no dependan de estructuras frágiles.
-
-Añada sentencias de verificación (aserciones) al final de su script utilizando la función expect de Playwright. (Ejemplo: await expect(page.locator('.bienvenida')).toBeVisible();). Esto garantiza que la prueba realmente valida un resultado y cumple la función de oráculo de prueba.
-
-## Paso 5: Ejecución y Evidencia Continua
-
-Ejecute la prueba recién creada con el comando: npx playwright test --headed (para ver la ejecución visualmente).
-
-Generé el reporte HTML con npx playwright show-report.
-
-Tome una captura del reporte HTML verde (aprobado).
-
-Adjunte la evidencia a la tarjeta de Trello y muévala a la columna "Pruebas / Verificación". Si la prueba falla, documente el hallazgo y el rastro (Trace Viewer) como un defecto.
-
-Con esta sesión ajustada, el equipo comenzará a construir una suite de automatización técnica robusta, preparando el terreno para la integración continua que configuraremos en GitHub Actions en módulos posteriores.
+## 📝 Preguntas de Reflexión y Análisis Crítico (Para los Estudiantes)
+1.  ¿Por qué el código generado por herramientas de grabación (`codegen`) requiere refinamiento crítico de localizadores antes de integrarse a la suite definitiva?
+2.  ¿De qué manera la adición de aserciones (`expect`) cumple el concepto de "oráculo de prueba" en un script automatizado?
