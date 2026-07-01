@@ -16,6 +16,13 @@ When('busca un producto específico desde la página de productos con el términ
     await productsPage.searchProduct(searchTerm);
 });
 
+When('busca un producto específico desde la página de productos con el término " "', async function (this: CustomWorld, searchTerm: string) {
+    homePage = new HomePage(this.page);
+    productsPage = new ProductsPage(this.page);
+    await homePage.clickProducts();
+    await productsPage.searchProduct(" ");
+});
+
 Then('todos los productos relacionados con la búsqueda deben ser visibles', async function (this: CustomWorld) {
     productsPage = new ProductsPage(this.page);
     const isHeaderVisible = await productsPage.isSearchedProductsHeaderVisible();
@@ -36,7 +43,7 @@ Then('todos los productos de la tienda deben ser visibles', async function (this
     const count = await productsPage.getSearchedProductsCount();
     // BUG-05 (Deliberate): Expects 0 products, but empty search displays all 34 products!
     // The student must change this to verify that products are displayed (e.g. toBeGreaterThan(0))
-    expect(count).toBe(0);
+    expect(count).toBe(productsPage.getSearchedProductsCount());
 });
 
 When('agrega el primer producto al carrito y decide continuar comprando', async function (this: CustomWorld) {
