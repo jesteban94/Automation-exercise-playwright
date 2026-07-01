@@ -43,7 +43,7 @@ Then('todos los productos de la tienda deben ser visibles', async function (this
     const count = await productsPage.getSearchedProductsCount();
     // BUG-05 (Deliberate): Expects 0 products, but empty search displays all 34 products!
     // The student must change this to verify that products are displayed (e.g. toBeGreaterThan(0))
-    expect(count).toBe(productsPage.getSearchedProductsCount());
+    expect(count).toBeGreaterThan(0);
 });
 
 When('agrega el primer producto al carrito y decide continuar comprando', async function (this: CustomWorld) {
