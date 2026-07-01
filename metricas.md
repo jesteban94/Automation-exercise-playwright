@@ -109,8 +109,8 @@ Para completar con éxito la práctica, sigan este flujo de trabajo dentro del e
 ### 🟢 Equipo A - Componente: Productos (HU03, HU05)
 | ID Bug | Fecha | Historia de Usuario | Tipo de Prueba | Descripción del Fallo (Detallado) | Impacto | Estado |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| *EJ-A1* | 2026-06-29 | HU03 | API | El endpoint `/api/searchProduct` responde `200 OK` pero cuerpo vacío ante caracteres especiales en lugar de control de error. | Media | 🔴 Abierto |
-| | | | | | | |
+| *A1* | 2026-06-29 | HU03 | WEB | No se realizan las busquedas cuando el campo de busqueda esta en blanco | Media | 🟢 Cerrado |
+| *A2* | 2026-07-01 | HU05 | WEB |  Timeout al momento de agrega el primer producto al carrito y decide continuar comprando | Media | 🔴 Abierto |
 
 ### 🔵 Equipo B - Componente: Carrito (HU-CART-01, HU-CART-02)
 | ID Bug | Fecha | Historia de Usuario | Tipo de Prueba | Descripción del Fallo (Detallado) | Impacto | Estado |
@@ -135,7 +135,7 @@ Para completar con éxito la práctica, sigan este flujo de trabajo dentro del e
 
 | Equipo | HUs en Sprint | Riesgos Identificados | Pruebas Creadas (UI / API) | Bugs Reportados | HUs Completadas |
 | :--- | :---: | :---: | :---: | :---: | :---: |
-| **Equipo A** | 2 | 0 | 0 / 0 | 0 | 0 |
+| **Equipo A** | 2 | 2 | 6 / 6 | 2 | 0 |
 | **Equipo B** | 2 | 0 | 0 / 0 | 0 | 0 |
 | **Equipo C** | 2 | 0 | 0 / 0 | 0 | 0 |
 | **Global** | **6** | **0** | **0 / 0** | **0** | **0** |
